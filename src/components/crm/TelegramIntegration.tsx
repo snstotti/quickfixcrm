@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { ArrowLeft, MessageSquare, Send, Check, X } from "lucide-react";
 import { toast } from "sonner@2.0.3";
 
+
 interface TelegramIntegrationProps {
   onBack: () => void;
 }
 
 export function TelegramIntegration({ onBack }: TelegramIntegrationProps) {
+const chatContainerRef = useRef<HTMLDivElement>(null);
+
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -67,6 +70,12 @@ export function TelegramIntegration({ onBack }: TelegramIntegrationProps) {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const handleApproveAll = () => {
     setMessages(prev => [...prev, {
       id: Date.now(),
@@ -103,7 +112,7 @@ export function TelegramIntegration({ onBack }: TelegramIntegrationProps) {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6 ">
         {/* Chat Interface */}
         <Card className="lg:col-span-2 border-0 shadow-lg h-96 flex flex-col">
           <CardHeader className="flex-shrink-0">
@@ -121,7 +130,10 @@ export function TelegramIntegration({ onBack }: TelegramIntegrationProps) {
           
           <CardContent className="flex-1 flex flex-col">
             {/* Messages */}
-            <div className="flex-1 space-y-3 overflow-y-auto mb-4">
+            <div
+              ref={chatContainerRef}
+              className="flex-1 space-y-3 overflow-y-auto mb-4 pr-2"
+              style={{ maxHeight: "220px" }}>
               {messages.map((message) => (
                 <div 
                   key={message.id}

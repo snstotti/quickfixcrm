@@ -17,10 +17,10 @@ import { Dashboard } from "./components/crm/Dashboard";
 import { OrderCard } from "./components/crm/OrderCard";
 import { TelegramIntegration } from "./components/crm/TelegramIntegration";
 
-type ViewType = "landing" | "crm-dashboard" | "crm-order" | "crm-telegram";
+type ViewType =  "crm-dashboard" | "crm-order" | "crm-telegram";
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<ViewType>("landing");
+  const [currentView, setCurrentView] = useState<ViewType>("crm-dashboard");
 
   const renderContent = () => {
     switch (currentView) {
@@ -49,13 +49,7 @@ export default function App() {
                   <span className="text-sm text-gray-500">v2.1.0</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setCurrentView("landing")}
-                  >
-                    ← Вернуться на лендинг
-                  </Button>
+                 
                   <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm">
                     АП
                   </div>
